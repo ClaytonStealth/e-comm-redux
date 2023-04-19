@@ -11,20 +11,30 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../redux/userSlice";
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    // console.log({
+    //   username: data.get("username"),
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
+    let userObj = {
+      username: data.get("username"),
       email: data.get("email"),
       password: data.get("password"),
-    });
+    };
+    dispatch(fetchUser(userObj));
   };
 
   return (
     <Container component='main' maxWidth='xs'>
-      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
@@ -36,10 +46,21 @@ export default function Login() {
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
+        User: {user.username}
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
         <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin='normal'
+            required
+            fullWidth
+            id='username'
+            label='User Name'
+            name='username'
+            autoComplete='username'
+            autoFocus
+          />
           <TextField
             margin='normal'
             required
