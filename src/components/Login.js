@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../redux/userSlice";
+import { fetchUser, registerUser } from "../redux/userSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -47,6 +47,8 @@ export default function Login() {
           <LockOutlinedIcon />
         </Avatar>
         User: {user.username}
+        <br />
+        Email: {user.email}
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
