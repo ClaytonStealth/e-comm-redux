@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../redux/userSlice";
+import { validator } from "../lib/validator";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -20,22 +21,31 @@ export default function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // let userObj = {
-    //   firstname: data.get("firstName"),
-    //   lastname: data.get("lastName"),
-    //   username: data.get("username"),
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // };
-    dispatch(
-      registerUser({
-        firstname: data.get("firstName"),
-        lastname: data.get("lastName"),
-        username: data.get("username"),
-        email: data.get("email"),
-        password: data.get("password"),
-      })
-    );
+    let userObj = {
+      firstname: data.get("firstName"),
+      lastname: data.get("lastName"),
+      username: data.get("username"),
+      email: data.get("email"),
+      password: data.get("password"),
+    };
+    userObj.password !== data.get("password1") &&
+      alert("Password do not match");
+    validator({
+      firstname: data.get("firstName"),
+      lastname: data.get("lastName"),
+      username: data.get("username"),
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+    // dispatch(
+    //   registerUser({
+    //     firstname: data.get("firstName"),
+    //     lastname: data.get("lastName"),
+    //     username: data.get("username"),
+    //     email: data.get("email"),
+    //     password: data.get("password"),
+    //   })
+    // );
   };
 
   return (
@@ -105,6 +115,17 @@ export default function Register() {
                 label='Password'
                 type='password'
                 id='password'
+                autoComplete='new-password'
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name='password1'
+                label='Confirm Password'
+                type='password'
+                id='password1'
                 autoComplete='new-password'
               />
             </Grid>
