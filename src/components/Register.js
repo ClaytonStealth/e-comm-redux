@@ -18,6 +18,11 @@ export default function Register() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
+  const [pwdMatch, setPwdMatch] = useState({
+    error: false,
+    message: "",
+  });
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -28,8 +33,9 @@ export default function Register() {
       email: data.get("email"),
       password: data.get("password"),
     };
-    userObj.password !== data.get("password1") &&
-      alert("Password do not match");
+    userObj.password !== data.get("password1")
+      ? setPwdMatch({ error: true, message: "Passwords do not match" })
+      : setPwdMatch({ error: false, message: "" });
     validator({
       firstname: data.get("firstName"),
       lastname: data.get("lastName"),
@@ -127,6 +133,8 @@ export default function Register() {
                 type='password'
                 id='password1'
                 autoComplete='new-password'
+                error={pwdMatch.error}
+                helperText={pwdMatch.message}
               />
             </Grid>
           </Grid>

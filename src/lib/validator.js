@@ -13,7 +13,7 @@ const checker = (key, element) => {
       console.log(element);
       return false;
     case "email":
-      console.log(element);
+        console.log(element);
       return false;
     case "password":
       console.log(element);
