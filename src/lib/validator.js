@@ -92,12 +92,12 @@ const checker = (key, element) => {
           message: "cannot contain spaces",
         };
       }
-      if (element.length < 8) {
-        return {
-          error: true,
-          message: "Password must be at least 8 characters",
-        };
-      }
+      // if (element.length < 8) {
+      //   return {
+      //     error: true,
+      //     message: "Password must be at least 8 characters",
+      //   };
+      // }
       // let pattern = new RegExp(
       //   '^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$'
       // );

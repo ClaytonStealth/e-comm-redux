@@ -1,13 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Axios from "../lib/Axios";
+import { authSuccess } from "./authSlice";
 
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
-  async (userData) => {
+  async (userData, thunkAPI) => {
     let response = await Axios.post("/users/login", userData);
+    //remember me button checked
+    //isRemember && localStorage.setItem("jwtToken", response.data.token);
+
+    //set token in local storage
+    localStorage.setItem("jwtToken", response.data.token);
+
+    //dispatch authSlice- authSuccess
+    thunkAPI.dispatch(authSuccess());
     return {
       user: response.data.userObj,
-      token: response.data.token,
     };
   }
 );
@@ -21,15 +29,19 @@ export const registerUser = createAsyncThunk(
     };
   }
 );
-
+const initialState = {
+  username: "",
+  email: "",
+  password: "",
+};
 export const userSlice = createSlice({
   name: "user",
-  initialState: {
-    username: "",
-    email: "",
-    password: "",
+  initialState: initialState,
+  reducers: {
+    userLogout: (state) => {
+      state = initialState;
+    },
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.fulfilled, (state, action) => {
@@ -49,6 +61,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const {} = userSlice.actions;
+export const { userLogout } = userSlice.actions;
 
 export default userSlice.reducer;
