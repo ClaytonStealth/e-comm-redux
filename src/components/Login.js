@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,11 +13,20 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, registerUser } from "../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  const handleSubmit = (event) => {
+  const status = useSelector((state) => state.user.status);
+  useEffect(() => {
+    if (user.status === "fulfilled") {
+      navigate("/", { replace: true });
+    }
+  }, [status]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // console.log({
@@ -30,7 +39,11 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     };
-    dispatch(fetchUser(userObj));
+    try {
+      await dispatch(fetchUser(userObj));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -46,9 +59,7 @@ export default function Login() {
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        User: {user.username}
-        <br />
-        Email: {user.email}
+        Error: {user.message}
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>

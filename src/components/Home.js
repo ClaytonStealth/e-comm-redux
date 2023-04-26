@@ -7,7 +7,12 @@ import {
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authFailure, authLogout, authSuccess } from "../redux/authSlice";
+import {
+  authCheck,
+  authFailure,
+  authLogout,
+  authSuccess,
+} from "../redux/authSlice";
 import { checkAuthToken } from "../lib/checkAuthToken";
 
 const Home = () => {
@@ -15,8 +20,9 @@ const Home = () => {
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth);
   useEffect(() => {
-    let authy = checkAuthToken();
-    authy ? dispatch(authSuccess()) : dispatch(authFailure());
+    // let authy = checkAuthToken();
+    // authy ? dispatch(authSuccess()) : dispatch(authFailure());
+    dispatch(authCheck());
   }, []);
   return (
     <Container maxWidth='lg'>
