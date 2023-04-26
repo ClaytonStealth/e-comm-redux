@@ -20,7 +20,7 @@ const Home = () => {
   }, []);
   return (
     <Container maxWidth='lg'>
-      <Box maxWidth='xs' m={3} sx={{ backgroundColor: "cyan" }}>
+      <Box maxWidth='xs' m={3}>
         <Typography variant='h2'>Please Login</Typography>
       </Box>
 
